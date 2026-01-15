@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/referees")
-public class RefereeController {
+public class RefereeApi {
 
     private final RefereeService refereeService;
 

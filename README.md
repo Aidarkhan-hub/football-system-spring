@@ -33,3 +33,9 @@ docker compose up -d db
 
 ## Git Flow
 Changes for feature branch: ManyToMany Match-Referee.
+
+Spring Boot: localhost:5433
+
+pgAdmin: host=postgres, port=5432
+
+pgAdmin URL: http://localhost:5050
