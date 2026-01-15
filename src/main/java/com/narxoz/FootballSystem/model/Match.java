@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -34,4 +36,13 @@ public class Match {
     private LocalDateTime matchTime;
 
     private String stadium;
+
+    @ManyToMany
+    @JoinTable(
+            name = "match_referees",
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "referee_id")
+    )
+    private Set<Referee> referees = new HashSet<>();
+
 }
