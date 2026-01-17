@@ -3,7 +3,6 @@ package com.narxoz.FootballSystem.service.serviceImpl;
 import com.narxoz.FootballSystem.dto.PlayerDto;
 import com.narxoz.FootballSystem.mapper.PlayerMapper;
 import com.narxoz.FootballSystem.model.Player;
-import com.narxoz.FootballSystem.model.Team;
 import com.narxoz.FootballSystem.repository.PlayerRepo;
 import com.narxoz.FootballSystem.repository.TeamRepo;
 import com.narxoz.FootballSystem.service.PlayerService;
@@ -22,13 +21,15 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDto create(PlayerDto dto) {
-        Team team = teamRepo.findById(dto.getTeamId())
+        teamRepo.findById(dto.getTeamId())
                 .orElseThrow(() -> new IllegalArgumentException("Team not found: " + dto.getTeamId()));
+
         Player player = playerMapper.toEntity(dto);
-        player.setTeam(team);
+
         if (player.getGoals() == null) {
             player.setGoals(0);
         }
+
         return playerMapper.toDto(playerRepo.save(player));
     }
 
@@ -37,7 +38,7 @@ public class PlayerServiceImpl implements PlayerService {
         Player player = playerRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Player not found: " + id));
 
-        Team team = teamRepo.findById(dto.getTeamId())
+        teamRepo.findById(dto.getTeamId())
                 .orElseThrow(() -> new IllegalArgumentException("Team not found: " + dto.getTeamId()));
 
         player.setFullName(dto.getFullName());
@@ -45,7 +46,12 @@ public class PlayerServiceImpl implements PlayerService {
         player.setAge(dto.getAge());
         player.setJerseyNumber(dto.getJerseyNumber());
         player.setGoals(dto.getGoals());
-        player.setTeam(team);
+
+        if (player.getTeam() == null) {
+            player.setTeam(new com.narxoz.FootballSystem.model.Team());
+        }
+        player.getTeam().setId(dto.getTeamId());
+
         return playerMapper.toDto(playerRepo.save(player));
     }
 

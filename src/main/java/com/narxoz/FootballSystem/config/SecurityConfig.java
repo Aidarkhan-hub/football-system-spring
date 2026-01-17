@@ -14,7 +14,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                // for exam demo we allow swagger/health without auth, everything else - basic auth
                 .requestMatchers("/actuator/**", "/error").permitAll()
                 .anyRequest().authenticated()
         );
